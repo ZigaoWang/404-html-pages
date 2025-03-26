@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            letter-spacing: -0.02em;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 0 40px;
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .glitch {
+            font-size: 140px;
+            font-weight: 700;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
+            letter-spacing: -0.03em;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: "404";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.8;
+        }
+
+        .glitch::before {
+            color: #0ff;
+            z-index: -1;
+            animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+            animation-delay: 0.1s;
+        }
+
+        .glitch::after {
+            color: #f0f;
+            z-index: -2;
+            animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+            animation-delay: 0.05s;
+        }
+
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            20% {
+                transform: translate(-2px, 2px);
+            }
+            40% {
+                transform: translate(-2px, -2px);
+            }
+            60% {
+                transform: translate(2px, 2px);
+            }
+            80% {
+                transform: translate(2px, -2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .message {
+            font-size: 18px;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .home-button {
+            display: inline-block;
+            background-color: #0071e3;
+            color: white;
+            font-size: 17px;
+            font-weight: 500;
+            padding: 12px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            outline: none;
+        }
+
+        .home-button:hover {
+            background-color: #0077ED;
+            transform: scale(1.02);
+        }
+
+        .home-button:active {
+            transform: scale(0.98);
+        }
+
+        .grid {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            background-image: 
+                linear-gradient(rgba(18, 18, 18, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 18, 0.15) 1px, transparent 1px);
+            background-size: 40px 40px;
+            perspective: 1000px;
+            transform-style: preserve-3d;
+            animation: gridAnimation 15s linear infinite;
+        }
+
+        @keyframes gridAnimation {
+            0% {
+                transform: rotateX(80deg) translateY(0);
+            }
+            100% {
+                transform: rotateX(80deg) translateY(40px);
+            }
+        }
+
+        #funnyText {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.6);
+            font-style: italic;
+            margin-bottom: 30px;
+            transition: opacity 0.3s ease;
+        }
+
+        .loading-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            width: 0%;
+            background: linear-gradient(90deg, #0071e3, #40baff);
+            z-index: 10;
+            transition: width 0.3s ease-out;
+        }
+
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        .terminal {
+            background-color: rgba(30, 30, 30, 0.7);
+            border-radius: 6px;
+            padding: 20px;
+            font-family: "SF Mono", SFMono-Regular, ui-monospace, "DejaVu Sans Mono", Menlo, Consolas, monospace;
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #0f0;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            overflow: hidden;
+            height: 0;
+            opacity: 0;
+            transition: height 0.5s ease, opacity 0.5s ease, margin 0.5s ease;
+        }
+
+        .terminal.active {
+            height: 200px;
+            opacity: 1;
+            margin-bottom: 40px;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: #0f0;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .error-box {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            background: rgba(18, 18, 18, 0.5);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-bar" id="loadingBar"></div>
+    <div class="grid"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="container">
+        <div class="error-box">
+            <div class="glitch">404</div>
+            <h1 class="title">Page not found</h1>
+            <p class="message">The page you're looking for seems to have been moved, deleted, or possibly never existed in the first place.</p>
+            
+            <p id="funnyText">Running diagnostics...</p>
+            
+            <div class="terminal" id="terminal">
+                > Initializing page recovery protocol...<br>
+                > Searching directory structure...<br>
+                > Analyzing request parameters...<br>
+                > No matching resource found.<br>
+                > Cause of error: Resource_Not_Found<br>
+                > Recommendation: Return to homepage<br>
+                <span class="cursor"></span>
+            </div>
+            
+            <button class="home-button" id="homeButton">Return to Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Array of funny messages that are still professional
+        const funnyMessages = [
+            "Have you tried turning it off and on again?",
+            "Looks like this page is playing hide and seek. And winning.",
+            "Error 404: Page decided to take a day off.",
+            "We searched everywhere, even checked under the digital sofa.",
+            "This link appears to be on vacation without leaving a forwarding address.",
+            "Our developers are still looking for this page. They're not very good at hide and seek.",
+            "We asked ChatGPT where this page went, but it started philosophizing instead.",
+            "The good news: it's not you. The bad news: we couldn't find your page.",
+            "Congratulations! You've discovered our secret 404 page. There's nothing to win, though."
+        ];
+        
+        // Initialize particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 3 + 1;
+                
+                // Random opacity
+                const opacity = Math.random() * 0.5 + 0.1;
+                
+                particle.style.left = `${x}%`;
+                particle.style.top = `${y}%`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.opacity = opacity;
+                
+                // Add floating animation with random duration and delay
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Add CSS for floating animation
+        function addFloatAnimation() {
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes float {
+                    0%, 100% {
+                        transform: translateY(0) translateX(0);
+                    }
+                    25% {
+                        transform: translateY(-20px) translateX(10px);
+                    }
+                    50% {
+                        transform: translateY(-35px) translateX(-15px);
+                    }
+                    75% {
+                        transform: translateY(-20px) translateX(15px);
+                    }
+                }
+            `;
+            document.head.appendChild(style);
+        }
+        
+        // Change funny text randomly
+        function cycleFunnyMessages() {
+            const funnyTextElement = document.getElementById('funnyText');
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % funnyMessages.length;
+                funnyTextElement.style.opacity = 0;
+                
+                setTimeout(() => {
+                    funnyTextElement.textContent = funnyMessages[currentIndex];
+                    funnyTextElement.style.opacity = 1;
+                }, 300);
+            }, 4000);
+        }
+        
+        // Set up terminal animation
+        function setupTerminal() {
+            const terminal = document.getElementById('terminal');
+            
+            // Show terminal after a delay
+            setTimeout(() => {
+                terminal.classList.add('active');
+            }, 1000);
+        }
+        
+        // Set up home button
+        function setupHomeButton() {
+            const homeButton = document.getElementById('homeButton');
+            const loadingBar = document.getElementById('loadingBar');
+            
+            homeButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Animate loading bar
+                loadingBar.style.width = '100%';
+                
+                // Add glitch effect to the whole page
+                document.body.style.animation = 'glitch 0.2s infinite';
+                
+                // Redirect after animation
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            });
+        }
+        
+        // Initialize everything
+        window.addEventListener('DOMContentLoaded', () => {
+            addFloatAnimation();
+            createParticles();
+            cycleFunnyMessages();
+            setupTerminal();
+            setupHomeButton();
+        });
+    </script>
+</body>
+</html>
+
