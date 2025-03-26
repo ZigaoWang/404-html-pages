@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Retro Vaporwave</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes grain {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1%, -1%); }
+            20% { transform: translate(1%, 1%); }
+            30% { transform: translate(-2%, -2%); }
+            40% { transform: translate(3%, 1%); }
+            50% { transform: translate(-3%, -2%); }
+            60% { transform: translate(4%, 1%); }
+            70% { transform: translate(2%, -1%); }
+            80% { transform: translate(-3%, 2%); }
+            90% { transform: translate(1%, -1%); }
+        }
+
+        body {
+            background-color: #0d0221;
+            color: #fff;
+            font-family: 'VT323', monospace;
+            overflow: hidden;
+            position: relative;
+            height: 100vh;
+        }
+
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAB3RJTUUH4AoLFygDgG1e+gAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUHAAAA/klEQVRo3u2ZwQ3CMAxFv1G7A2zQO3CBEZiBIRmlQzACEzBC2QAW4AaHSkhRSFA/iYn9bqnU2FJevn9s1TnHGYSI3CQNkkZJKTP5+cJM5pNIli0ZpbQGSSNrQtK6WQOSckm3WpC7pGcNSBbbO2ZL2yZLyi9S75JGSZOkg6RLZn0D5Agy1YAI5ALSZQKdw3YoaBssaLoK+UDQJZBvBP0G8guCfoL8i6A/QZZAOOQCIZAriMhFfKrfD/k+xHRY1p/eucUy3Vq7zJo0AfIRKVIckFL7gE25j22CXsHmFnVspXgHW+r0sA0WvmG0YeBxDKsWzeA4imUjn3gDiF5+B1z9ZzAAAAAASUVORK5CYII=");
+            opacity: 0.2;
+            z-index: 1;
+            pointer-events: none;
+            animation: grain 0.8s steps(1) infinite;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 0 20px;
+        }
+
+        .retro-computer {
+            width: 100%;
+            max-width: 650px;
+            background: #222;
+            border-radius: 10px;
+            border: 3px solid #ff00ff;
+            box-shadow: 
+                0 0 10px #ff00ff,
+                0 0 20px rgba(255, 0, 255, 0.5),
+                inset 0 0 10px rgba(0, 255, 255, 0.3);
+            padding: 20px;
+            position: relative;
+            margin-bottom: 40px;
+        }
+
+        .screen {
+            background: #000;
+            border-radius: 5px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: inset 0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .screen::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.5), transparent);
+            animation: scanline 3s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes scanline {
+            0% {
+                transform: translateY(-100%);
+            }
+            100% {
+                transform: translateY(100vh);
+            }
+        }
+
+        .error-code {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 64px;
+            text-align: center;
+            background: linear-gradient(to right, #ff00ff, #00ffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(255, 0, 255, 0.5), 0 0 20px rgba(0, 255, 255, 0.3);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .error-code::after {
+            content: "404";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 0, 255, 0.2);
+            z-index: -1;
+            filter: blur(4px);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                filter: blur(4px);
+                opacity: 0.7;
+            }
+            to {
+                filter: blur(8px);
+                opacity: 1;
+                text-shadow: 0 0 30px #ff00ff;
+            }
+        }
+
+        .title {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #00ffff;
+            text-align: center;
+        }
+
+        .message {
+            font-size: 24px;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 0 5px #00ffff;
+            text-align: center;
+        }
+
+        .retro-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+            gap: 20px;
+        }
+
+        .retro-btn {
+            background: none;
+            border: 2px solid #ff00ff;
+            color: #ff00ff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 14px;
+            padding: 10px 20px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.3s;
+        }
+
+        .retro-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, #ff00ff, transparent);
+            transition: left 0.3s;
+            z-index: -1;
+        }
+
+        .retro-btn:hover {
+            color: #000;
+        }
+
+        .retro-btn:hover::before {
+            left: 100%;
+        }
+
+        .sun {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(to right, #ff00ff, #ff7700);
+            border-radius: 50%;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 30px #ff00ff;
+            z-index: -1;
+        }
+
+        .grid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 30vh;
+            background: 
+                linear-gradient(transparent 0%, rgba(255, 0, 255, 0.2) 10%, rgba(255, 0, 255, 0.5) 100%),
+                linear-gradient(90deg, transparent 0%, rgba(0, 255, 255, 0.2) 10%, rgba(0, 255, 255, 0.5) 100%);
+            background-size: 40px 40px;
+            perspective: 1000px;
+            transform-origin: bottom center;
+            transform: rotateX(60deg);
+            z-index: -1;
+        }
+
+        .mountains {
+            position: absolute;
+            bottom: 30vh;
+            left: 0;
+            width: 100%;
+            height: 20vh;
+            background: linear-gradient(180deg, transparent, #ff00ff);
+            clip-path: polygon(
+                0% 100%, 
+                10% 40%, 
+                20% 70%, 
+                30% 20%, 
+                40% 60%, 
+                50% 30%, 
+                60% 70%, 
+                70% 40%, 
+                80% 80%, 
+                90% 20%, 
+                100% 100%
+            );
+            z-index: -1;
+        }
+
+        .status-bar {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            text-align: left;
+            margin-top: 15px;
+            color: #00ffff;
+        }
+
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        .retro-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(0, 255, 255, 0.3);
+        }
+
+        .power-light {
+            width: 12px;
+            height: 12px;
+            background-color: #00ffff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00ffff;
+            margin-right: 8px;
+            animation: blink 2s linear infinite;
+        }
+
+        .cmd-input {
+            background: transparent;
+            border: none;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            color: #00ffff;
+            caret-color: #00ffff;
+            outline: none;
+            width: 100%;
+            margin-left: 5px;
+        }
+
+        .cmd-prompt {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .retrowave-stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="retro-computer">
+            <div class="screen">
+                <div class="error-code">404</div>
+                <h1 class="title">SYSTEM ERROR</h1>
+                <p class="message">File not found. The requested URL was not found on this server.</p>
+                
+                <div class="status-bar">> ERROR_CODE: 0x80070002</div>
+                <div class="status-bar">> SYSTEM: Attempting to recover data...</div>
+                <div class="status-bar">> RESULT: No data found <span class="blink">_</span></div>
+                
+                <div class="cmd-prompt">
+                    <span style="color: #ff00ff;">C:\\></span>
+                    <input type="text" class="cmd-input" id="cmdInput" placeholder="Type 'help' for commands..." autofocus>
+                </div>
+                
+                <div class="retro-footer">
+                    <div style="display: flex; align-items: center;">
+                        <div class="power-light"></div>
+                        <span>SYSTEM ONLINE</span>
+                    </div>
+                    <div>MEM: 640K OK</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="retro-buttons">
+            <button class="retro-btn" id="homeBtn">GO BACK</button>
+            <button class="retro-btn" id="rebootBtn">REBOOT</button>
+        </div>
+    </div>
+    
+    <div class="sun"></div>
+    <div class="mountains"></div>
+    <div class="grid"></div>
+    <div class="retrowave-stars" id="stars"></div>
+    
+    <script>
+        // Create stars
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starsCount = 100;
+            
+            for (let i = 0; i < starsCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random position
+                const x = Math.random() * 100;
+                const y = Math.random() * 100;
+                
+                // Random size
+                const size = Math.random() * 3;
+                
+                star.style.left = `${x}%`;
+                star.style.top = `${y}%`;
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                
+                // Random twinkling
+                const duration = 0.5 + Math.random() * 5;
+                star.style.animation = `blink ${duration}s infinite alternate`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Command input handler
+        function setupCommandInput() {
+            const cmdInput = document.getElementById('cmdInput');
+            const statusBar = document.querySelector('.status-bar');
+            
+            // List of retro-themed commands
+            const commands = {
+                'help': 'Available commands: help, home, reboot, dir, about',
+                'dir': 'Directory of C:\\\n  404.SYS  <FILE>  3,584 bytes\n  MISSING.DAT  <FILE>  0 bytes\n  RETURN.EXE  <FILE>  1,024 bytes',
+                'about': 'RETROWAVE-OS v1.0.1\nCopyright (c) 1991\nAll your base are belong to us.',
+                'home': () => { window.location.href = '/'; },
+                'reboot': () => { location.reload(); }
+            };
+            
+            cmdInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    const command = cmdInput.value.toLowerCase().trim();
+                    
+                    // Create new status bar entry
+                    const newStatus = document.createElement('div');
+                    newStatus.classList.add('status-bar');
+                    newStatus.textContent = `> ${command}`;
+                    
+                    // Insert before cmd-prompt
+                    const cmdPrompt = document.querySelector('.cmd-prompt');
+                    cmdPrompt.parentNode.insertBefore(newStatus, cmdPrompt);
+                    
+                    // Process command
+                    if (commands[command]) {
+                        if (typeof commands[command] === 'function') {
+                            commands[command]();
+                        } else {
+                            const responseStatus = document.createElement('div');
+                            responseStatus.classList.add('status-bar');
+                            responseStatus.innerHTML = commands[command].replace(/\n/g, '<br>');
+                            cmdPrompt.parentNode.insertBefore(responseStatus, cmdPrompt);
+                        }
+                    } else if (command !== '') {
+                        const responseStatus = document.createElement('div');
+                        responseStatus.classList.add('status-bar');
+                        responseStatus.textContent = `Bad command or file name: ${command}`;
+                        cmdPrompt.parentNode.insertBefore(responseStatus, cmdPrompt);
+                    }
+                    
+                    // Clear input
+                    cmdInput.value = '';
+                }
+            });
+        }
+        
+        // Setup button actions
+        function setupButtons() {
+            const homeBtn = document.getElementById('homeBtn');
+            const rebootBtn = document.getElementById('rebootBtn');
+            
+            homeBtn.addEventListener('click', function() {
+                window.location.href = '/';
+            });
+            
+            rebootBtn.addEventListener('click', function() {
+                // Add reboot effect
+                document.body.style.animation = 'none';
+                setTimeout(() => {
+                    document.body.style.opacity = 0;
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+                }, 100);
+                document.body.style.transition = 'opacity 0.5s';
+            });
+        }
+        
+        // Easter egg
+        function setupEasterEgg() {
+            const errorCode = document.querySelector('.error-code');
+            let clickCount = 0;
+            
+            errorCode.addEventListener('click', function() {
+                clickCount++;
+                
+                if (clickCount >= 5) {
+                    // Launch konami mode
+                    document.body.style.background = 'linear-gradient(to bottom, #000, #0d0221)';
+                    const sun = document.querySelector('.sun');
+                    sun.style.background = 'linear-gradient(to right, #ffff00, #ffa500)';
+                    sun.style.boxShadow = '0 0 30px #ffff00';
+                    
+                    // Add rainbow text
+                    const message = document.querySelector('.message');
+                    message.innerHTML = "KONAMI MODE ACTIVATED! <span style='font-size:24px;'>&#x1f3ae;</span>";
+                    message.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
+                    message.style.webkitBackgroundClip = 'text';
+                    message.style.backgroundClip = 'text';
+                    
+                    clickCount = 0;
+                }
+            });
+        }
+        
+        // Initialize everything
+        window.addEventListener('DOMContentLoaded', () => {
+            createStars();
+            setupCommandInput();
+            setupButtons();
+            setupEasterEgg();
+        });
+    </script>
+</body>
+</html>
+
