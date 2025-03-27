@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - System Error</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        :root {
+            --primary: #ff2a6d;
+            --secondary: #05d9e8;
+            --dark: #1a1a2e;
+            --light: #d1f7ff;
+            --accent: #7700ff;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0.8; }
+            5% { opacity: 0.5; }
+            10% { opacity: 0.8; }
+            15% { opacity: 0.45; }
+            20% { opacity: 0.9; }
+            25% { opacity: 0.7; }
+            30% { opacity: 0.9; }
+            35% { opacity: 0.8; }
+            40% { opacity: 1; }
+            45% { opacity: 0.78; }
+            50% { opacity: 0.9; }
+            55% { opacity: 0.8; }
+            60% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+        
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px, 0) skew(0deg);
+            }
+            4%, 60% {
+                transform: translate(-2px, 0) skew(0deg);
+            }
+            62% {
+                transform: translate(0, 0) skew(5deg);
+            }
+        }
+        
+        @keyframes glitchTop {
+            2%, 64% {
+                transform: translate(2px, -2px);
+            }
+            4%, 60% {
+                transform: translate(-2px, 2px);
+            }
+            62% {
+                transform: translate(13px, -1px) skew(-13deg);
+            }
+        }
+        
+        @keyframes glitchBotom {
+            2%, 64% {
+                transform: translate(-2px, 0);
+            }
+            4%, 60% {
+                transform: translate(-2px, 0);
+            }
+            62% {
+                transform: translate(-22px, 5px) skew(21deg);
+            }
+        }
+        
+        @keyframes noise {
+            0%, 3%, 5%, 42%, 44%, 100% {opacity: 1; transform: scaleY(1);}  
+            4.3% {opacity: 1; transform: scaleY(4);}
+            43% {opacity: 1; transform: scaleX(10) rotate(60deg);}
+        }
+        
+        @keyframes scan {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+        
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', 
+                         Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 
+                         'Helvetica Neue', sans-serif;
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            animation: scan 4s linear infinite;
+            z-index: 11;
+        }
+        
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/png;base64,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");
+            opacity: 0.05;
+            pointer-events: none;
+            animation: noise 0.3s steps(1) infinite;
+            z-index: 9;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            width: 100%;
+            max-width: 800px;
+            border: 1px solid var(--secondary);
+            border-radius: 5px;
+            background-color: rgba(26, 26, 46, 0.7);
+            box-shadow: 0 0 20px rgba(5, 217, 232, 0.3),
+                        inset 0 0 20px rgba(5, 217, 232, 0.2);
+        }
+
+        .error-code {
+            position: relative;
+            font-size: 12rem;
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 2rem;
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary),
+                         3px 3px 0 var(--secondary);
+            animation: glitch 1s linear infinite;
+        }
+        
+        .error-code::before,
+        .error-code::after {
+            content: "404";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .error-code::before {
+            color: var(--secondary);
+            z-index: -1;
+            text-shadow: 2px 0 var(--secondary);
+            clip-path: rect(24px, 550px, 90px, 0);
+            animation: glitchTop 2s linear infinite alternate-reverse;
+        }
+        
+        .error-code::after {
+            color: var(--primary);
+            z-index: -2;
+            text-shadow: -2px 0 var(--accent);
+            clip-path: rect(85px, 550px, 140px, 0);
+            animation: glitchBotom 3s linear infinite alternate-reverse;
+        }
+        
+        .message {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .description {
+            font-family: monospace;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+            line-height: 1.6;
+            padding: 1rem;
+            border-left: 3px solid var(--primary);
+            text-align: left;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        
+        .ascii-art {
+            font-family: monospace;
+            font-size: 0.7rem;
+            white-space: pre;
+            line-height: 1;
+            color: var(--light);
+            margin-bottom: 2rem;
+            display: none; /* Hide by default on mobile */
+        }
+        
+        .home-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background-color: transparent;
+            color: var(--secondary);
+            text-decoration: none;
+            border: 2px solid var(--secondary);
+            border-radius: 0;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .home-button::before {
+            content: "";
+            position: absolute;
+            background-color: var(--secondary);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            transform: translateX(-100%);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+        
+        .home-button:hover {
+            color: var(--dark);
+        }
+        
+        .home-button:hover::before {
+            transform: translateX(0);
+        }
+        
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 1em;
+            background-color: var(--light);
+            margin-left: 5px;
+            animation: flicker 1s infinite;
+        }
+        
+        .terminal-line {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .error-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .error-cell {
+            border: 1px solid rgba(255, 42, 109, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: rgba(255, 42, 109, 0.5);
+        }
+        
+        @media (min-width: 768px) {
+            .ascii-art {
+                display: block;
+            }
+            
+            .error-code {
+                font-size: 15rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="error-grid" id="errorGrid"></div>
+    
+    <div class="container">
+        <h1 class="error-code">404</h1>
+        <h2 class="message">System Failure</h2>
+        
+        <pre class="ascii-art" id="asciiArt">
+  _______________________
+ /                       \
+|   CRITICAL ERROR:       |
+|                         |
+|   Page not found        |
+|   System compromised    |
+|                         |
+|   [ERROR CODE: 0x404]   |
+ \_______________________/
+        </pre>
+        
+        <div class="description" id="terminal">
+            <!-- Terminal content will be added by JavaScript -->
+        </div>
+        
+        <button class="home-button" id="homeButton">Return to System</button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create grid cells
+            const errorGrid = document.getElementById('errorGrid');
+            const cellCount = 20 * 10; // 20 columns × 10 rows
+            
+            for (let i = 0; i < cellCount; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'error-cell';
+                errorGrid.appendChild(cell);
+            }
+            
+            // Terminal text content - properly structured for typing effect
+            const terminal = document.getElementById('terminal');
+            const terminalLines = [
+                '> SYSTEM SCAN COMPLETE',
+                '> ERROR: The requested file cannot be located.',
+                '> ANALYZING: Possible system breach detected.',
+                '> RECOMMENDATION: Return to secure zone immediately.'
+            ];
+            
+            // Function to type out each line with proper formatting
+            function typeTerminal() {
+                let lineIndex = 0;
+                let charIndex = 0;
+                
+                function typeLine() {
+                    if (lineIndex >= terminalLines.length) {
+                        // All lines typed, add cursor at the end
+                        const cursor = document.createElement('span');
+                        cursor.className = 'cursor';
+                        terminal.lastChild.appendChild(cursor);
+                        return;
+                    }
+                    
+                    // If starting a new line
+                    if (charIndex === 0) {
+                        const lineElement = document.createElement('div');
+                        lineElement.className = 'terminal-line';
+                        terminal.appendChild(lineElement);
+                    }
+                    
+                    // Get current line and element
+                    const currentLineElement = terminal.lastChild;
+                    const currentLine = terminalLines[lineIndex];
+                    
+                    // Add character
+                    currentLineElement.textContent = currentLine.substring(0, charIndex + 1);
+                    charIndex++;
+                    
+                    // If line complete, move to next line
+                    if (charIndex >= currentLine.length) {
+                        lineIndex++;
+                        charIndex = 0;
+                        setTimeout(typeLine, 500); // Longer delay between lines
+                    } else {
+                        setTimeout(typeLine, Math.random() * 40 + 10); // Random typing speed
+                    }
+                }
+                
+                // Start typing
+                setTimeout(typeLine, 500);
+            }
+            
+            typeTerminal();
+            
+            // Random cell flash
+            const cells = document.querySelectorAll('.error-cell');
+            
+            function flashRandomCells() {
+                // Reset all cells
+                cells.forEach(cell => {
+                    cell.style.opacity = '0';
+                    cell.textContent = '';
+                });
+                
+                // Flash random cells
+                const cellCount = Math.floor(Math.random() * 10) + 5;
+                for (let i = 0; i < cellCount; i++) {
+                    const randomIndex = Math.floor(Math.random() * cells.length);
+                    const randomCell = cells[randomIndex];
+                    randomCell.style.opacity = '1';
+                    
+                    // Random error text
+                    const errorTexts = ['ERROR', '404', 'FAIL', 'SYS', '0x00', 'NULL'];
+                    const randomText = errorTexts[Math.floor(Math.random() * errorTexts.length)];
+                    randomCell.textContent = randomText;
+                }
+                
+                setTimeout(flashRandomCells, Math.random() * 2000 + 500);
+            }
+            
+            setTimeout(flashRandomCells, 1000);
+            
+            // Mouse move effect
+            document.addEventListener('mousemove', (e) => {
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                document.documentElement.style.setProperty('--mouse-x', x);
+                document.documentElement.style.setProperty('--mouse-y', y);
+                
+                const errorCode = document.querySelector('.error-code');
+                errorCode.style.textShadow = `${(x - 0.5) * 15}px ${(y - 0.5) * 15}px 10px rgba(255, 42, 109, 0.5)`;
+            });
+            
+            // Button click effect
+            const homeButton = document.getElementById('homeButton');
+            homeButton.addEventListener('click', () => {
+                // Add click effect
+                homeButton.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    homeButton.style.transform = 'scale(1)';
+                }, 100);
+                
+                // In a real implementation, redirect to home page
+                alert("This would navigate to your home page!");
+                // window.location.href = "/"; // Uncomment for real implementation
+            });
+        });
+    </script>
+</body>
+</html>
